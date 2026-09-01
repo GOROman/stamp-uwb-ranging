@@ -2,17 +2,17 @@
 
 M5Stamp C5 + Stamp UWB F で DS-TWR 測距するプロトタイプ。
 
-調査日: 2026-09-01。公式ドキュメントと [M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB) に基づく。ファームウェアはまだ入れてない。
+調査日: 2026-09-01。公式ドキュメントと [M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB) に基づく。ファームウェア（`.ino`）はまだ入れてない。次は公式 `DS_TWR_ANCHOR` / `DS_TWR_TAG` を焼いて、`include/` のヘッダを参照させる。
 
 ## ハードウェア（手元）
 
 | 品 | 数量 | 備考 |
 |---|---|---|
-| Stamp UWB F（S017-F） | 5 | QM33120W、FPC 0.5mm-12P。ホストできるのは 3 台 |
+| Stamp UWB F（S017-F） | 5 | QM33120W、FPC 0.5mm-12P。この測距では 3 台をホストする |
 | Stamp UWB（S017） | 2 | SMT。今回は未使用 |
-| Stamp-C5 ノーマル | 3 | DIP ではない。背面に 0.5mm-12P を実装して UWB-F と接続 |
+| Stamp-C5 ノーマル | 6 | 公式 3 + AliExpress 3。この測距では手元 6 のうち 3 をホストに使う。DIP ではない |
 
-S017 と S017-F はチップ・RF 仕様は同じ。差はコネクタだけ。公式クレームは正対 55 m、DS-TWR 誤差約 0.14 m。
+S017 と S017-F はチップ・RF 仕様は同じ。差はコネクタだけ。公式クレームは正対 55 m、DS-TWR 誤差約 0.14 m（アンテナ遅延は未校正。ライブラリ既定 16385）。
 
 ## ピン（UWB-F → Stamp-C5）
 
