@@ -82,8 +82,13 @@ static bool initUwb()
     config.pin_miso = UWB_PIN_MISO;
     config.pin_mosi = UWB_PIN_MOSI;
 
-    // PHY はライブラリ既定（Channel 9）を使用
+    // uwb_phy.h のマクロから PHY パラメータを設定
     M5Stamp_UWBPHYConfig phy;
+    phy.channel = static_cast<M5Stamp_UWBChannel>(UWB_CHANNEL);
+    phy.preambleLength = static_cast<M5Stamp_UWBPreambleLength>(UWB_PREAMBLE_LEN);
+    phy.txPower = UWB_TX_POWER;
+    phy.txAntennaDelay = UWB_ANT_DELAY_TX;
+    phy.rxAntennaDelay = UWB_ANT_DELAY_RX;
 
     if (!uwb.begin(config, phy)) {
         Serial.printf("UWB_BEGIN,result=FAIL,error=%s\n", uwb.lastErrorName());
