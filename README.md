@@ -1,2 +1,65 @@
 # stamp-uwb-ranging
-M5Stamp C5 + UWB-F DS-TWR ranging prototype
+
+M5Stamp C5 + Stamp UWB F で DS-TWR 測距するプロトタイプ。
+
+調査日: 2026-09-01。公式ドキュメントと [M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB) に基づく。ファームウェアはまだ入れてない。
+
+## ハードウェア（手元）
+
+| 品 | 数量 | 備考 |
+|---|---|---|
+| Stamp UWB F（S017-F） | 5 | QM33120W、FPC 0.5mm-12P。ホストできるのは 3 台 |
+| Stamp UWB（S017） | 2 | SMT。今回は未使用 |
+| Stamp-C5 ノーマル | 3 | DIP ではない。背面に 0.5mm-12P を実装して UWB-F と接続 |
+
+S017 と S017-F はチップ・RF 仕様は同じ。差はコネクタだけ。公式クレームは正対 55 m、DS-TWR 誤差約 0.14 m。
+
+## ピン（UWB-F → Stamp-C5）
+
+公式サンプルとライブラリ既定と一致。直さなくていい。
+
+| UWB-F | C5 GPIO |
+|---|---|
+| GP7 | G23 |
+| IRQ | G0 |
+| WAKEUP | G24 |
+| RST | G25 |
+| MISO | G26 |
+| MOSI | G27 |
+| CS | G11 |
+| SCK | G12 |
+
+詳細は [docs/wiring.md](docs/wiring.md)。
+
+## 初回フラッシュ（2台）
+
+1. C5×2 に UWB-F を FPC で接続。向き確認。アンテナにケーブルを重ねない。
+2. Arduino: ボード `M5StampC5`、ライブラリ `M5Stamp_UWB`。
+3. 先に GitHub 例 `examples/DS_TWR_ANCHOR`（Anchor `0x0002`）、次に `examples/DS_TWR_TAG`（Tag `0x0001`）。
+4. PHY はデフォルト **Channel 9**。Arduino ドキュメントの Channel 5 直書き例は使わない。混ぜると無通信。
+5. シリアル 115200。`UWB_ID,dev_id=0xDECA0314` と `DS_RANGE_STAT,...distance_mm=` が出れば成功。
+
+PAN は両端 `0xDECA`。
+
+## 3台目
+
+Anchor `0x0003` を足す（ドキュメント §5 形式）。GitHub の MULTI 例は `0x0101` 系で別物。混ぜない。
+
+公式ライブラリは順次ペアワイズ DS-TWR のみ。TDoA / 2D・3D 測位は未実装。座標は上位で計算する。
+
+## やってはいけないこと
+
+- Stamp-S3 / S3A の背面 FPC へ直接つなぐ（ピン非互換、永久破損）
+- FPC 逆差し
+- FPC を PCB アンテナ下に通す
+- ドキュメントの Ch5 例と GitHub の Ch9 例を混在させる
+
+詳細は [docs/gotchas.md](docs/gotchas.md)。シリアル形式は [docs/serial_format.md](docs/serial_format.md)。
+
+## リンク
+
+- [Arduino チュートリアル](https://docs.m5stack.com/ja/arduino/projects/stamp/stamp_uwb)
+- [Stamp UWB F](https://docs.m5stack.com/ja/stamp/Stamp_UWB_F)
+- [Stamp UWB](https://docs.m5stack.com/ja/stamp/Stamp_UWB)
+- [Stamp-C5](https://docs.m5stack.com/en/core/Stamp-C5)
+- [ライブラリ M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB)
