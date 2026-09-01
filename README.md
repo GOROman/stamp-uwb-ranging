@@ -2,7 +2,20 @@
 
 M5Stamp C5 + Stamp UWB F で DS-TWR 測距するプロトタイプ。
 
-調査日: 2026-09-01。公式ドキュメントと [M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB) に基づく。ファームウェア（`.ino`）はまだ入れてない。次は公式 `DS_TWR_ANCHOR` / `DS_TWR_TAG` を焼いて、`include/` のヘッダを参照させる。
+調査日: 2026-09-01。公式ドキュメントと [M5Stamp-UWB](https://github.com/m5stack/M5Stamp-UWB) に基づく。
+
+## スケッチ
+
+| スケッチ | 役割 | パス |
+|---|---|---|
+| DS_TWR_TAG | タグ（イニシエーター） | `sketches/DS_TWR_TAG/` |
+| DS_TWR_ANCHOR | アンカー（レスポンダー） | `sketches/DS_TWR_ANCHOR/` |
+
+スケッチは `include/` のヘッダ（`uwb_pins.h`, `uwb_addrs.h`, `uwb_phy.h`）を参照する。Arduino IDE で開く場合は [スケッチパスの設定](docs/sketch_paths.md) を参照。
+
+## CI（GitHub Actions）
+
+push / pull_request 時に全スケッチを M5StampC5 向けにコンパイル。ハードウェアへのフラッシュは行わない（コンパイルのみ）。フラッシュは PC から USB 経由で Stamp-C5 に直接行う（外部プログラマー不要）。
 
 ## ハードウェア（手元）
 
@@ -34,12 +47,15 @@ S017 と S017-F はチップ・RF 仕様は同じ。差はコネクタだけ。�
 ## 初回フラッシュ（2台）
 
 1. C5×2 に UWB-F を FPC で接続。向き確認。アンテナにケーブルを重ねない。
-2. Arduino: ボード `M5StampC5`、ライブラリ `M5Stamp_UWB`。
-3. 先に GitHub 例 `examples/DS_TWR_ANCHOR`（Anchor `0x0002`）、次に `examples/DS_TWR_TAG`（Tag `0x0001`）。
-4. PHY はデフォルト **Channel 9**。Arduino ドキュメントの Channel 5 直書き例は使わない。混ぜると無通信。
+2. Arduino IDE: ボード `M5StampC5`、ライブラリ `M5Stamp_UWB`。
+3. 先に `sketches/DS_TWR_ANCHOR/` を Anchor 用 C5 に書き込み、次に `sketches/DS_TWR_TAG/` を Tag 用 C5 に書き込む。
+   - Arduino IDE でスケッチを開く前に [スケッチパスの設定](docs/sketch_paths.md) を参照。
+4. PHY はライブラリ既定 **Channel 9**。Arduino ドキュメントの Channel 5 直書き例は使わない。混ぜると無通信。
 5. シリアル 115200。`UWB_ID,dev_id=0xDECA0314` と `DS_RANGE_STAT,...distance_mm=` が出れば成功。
 
-PAN は両端 `0xDECA`。
+PAN は両端 `0xDECA`。Anchor `0x0002`、Tag `0x0001`。
+
+**フラッシュ方法**: PC と Stamp-C5 を USB Type-C で接続し、Arduino IDE から直接書き込む。外部プログラマーは不要。
 
 ## 3台目
 
