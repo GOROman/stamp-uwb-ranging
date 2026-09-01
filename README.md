@@ -17,6 +17,9 @@ M5Stamp C5 + Stamp UWB F で DS-TWR 測距するプロトタイプ。
 
 push / pull_request 時に全スケッチを M5StampC5 向けにコンパイル。ハードウェアへのフラッシュは行わない（コンパイルのみ）。フラッシュは PC から USB 経由で Stamp-C5 に直接行う（外部プログラマー不要）。
 
+- FQBN: `m5stack:esp32:m5stack_stamp_c5`
+- ボードインデックス: https://static-cdn.m5stack.com/resource/arduino/package_m5stack_index.json
+
 ## ハードウェア（手元）
 
 | 品 | 数量 | 備考 |
