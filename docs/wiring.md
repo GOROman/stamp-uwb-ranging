@@ -2,7 +2,30 @@
 
 Stamp UWB F（S017-F）を Stamp-C5 ノーマルの背面 0.5mm-12P に FPC ケーブルでつなぐ。C5 DIP は未所持。電気的ピンは DIP と同一。
 
-## 信号
+## UWB-F 0.5mm-12P（モジュール側）
+
+出典: [製品ページ ピンマップ](https://docs.m5stack.com/ja/stamp/Stamp_UWB_F)。裏面、コネクタを下にしたとき **右が pin 1、左が pin 12**（図の `12 ← 1`）。
+
+| Pin | 信号 | 色（公式図） |
+|---|---|---|
+| 1 | 3V3 | POWER |
+| 2 | 3V3 | POWER |
+| 3 | GP7 | GPIO |
+| 4 | IRQ | GPIO |
+| 5 | WAKEUP | POWER/CTRL |
+| 6 | RSTn | POWER/CTRL |
+| 7 | GND | GND |
+| 8 | MISO | SPI（チップ DW_CDO） |
+| 9 | MOSI | SPI（チップ DW_CDI） |
+| 10 | CSn | SPI |
+| 11 | GND | GND |
+| 12 | CLK | SPI |
+
+回路図 `SCH_UWB_MODULE` の J1 も pin3=GP7, 4=IRQ, 5=WAKEUP, 6=RSTn, 8=CDO, 9=CDI, 10=CSn, 12=CLK。pin1/2 は製品ピンマップどおり **両方 3V3**（C5 側も 1–2 が 3V3）。図下右 PINMAP 箱は SMT キャステレーション用で、フレキではない。
+
+手元ケーブルは `0.5*12P*50MM 同面`。同面なら C5 背面 FPC と **同番号 1:1**。
+
+## 信号（UWB-F → Stamp-C5 GPIO）
 
 | UWB-F | C5 GPIO | ライブラリ `M5Stamp_UWBConfig` |
 |---|---|---|
@@ -19,20 +42,20 @@ Stamp UWB F（S017-F）を Stamp-C5 ノーマルの背面 0.5mm-12P に FPC ケ�
 
 ## C5 背面 FPC 0.5mm-12P（ホスト側）
 
-| Pin | C5 | UWB 相当 |
+| Pin | C5 | UWB-F |
 |---|---|---|
 | 1 | 3V3 | 3V3 |
 | 2 | 3V3 | 3V3 |
 | 3 | G23 | GP7 |
 | 4 | G0 | IRQ |
 | 5 | G24 | WAKEUP |
-| 6 | G25 | RST |
+| 6 | G25 | RSTn |
 | 7 | GND | GND |
 | 8 | G26 | MISO (CDO) |
 | 9 | G27 | MOSI (CDI) |
-| 10 | TXD (G11) | CS |
+| 10 | TXD (G11) | CSn |
 | 11 | GND | GND |
-| 12 | RXD (G12) | SCK |
+| 12 | RXD (G12) | CLK |
 
 出典: [Stamp-C5](https://docs.m5stack.com/en/core/Stamp-C5)
 
