@@ -35,13 +35,13 @@ jobs:
       - name: Compile DS_TWR_TAG
         run: |
           arduino-cli compile \
-            --fqbn m5stack:esp32:M5StampC5 \
+            --fqbn m5stack:esp32:m5stack_stamp_c5 \
             --build-property "build.extra_flags=-I${{ github.workspace }}/include" \
             sketches/DS_TWR_TAG
 
       - name: Compile DS_TWR_ANCHOR
         run: |
           arduino-cli compile \
-            --fqbn m5stack:esp32:M5StampC5 \
+            --fqbn m5stack:esp32:m5stack_stamp_c5 \
             --build-property "build.extra_flags=-I${{ github.workspace }}/include" \
             sketches/DS_TWR_ANCHOR
