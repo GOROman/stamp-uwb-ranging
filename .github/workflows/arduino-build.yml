@@ -28,6 +28,11 @@ jobs:
           arduino-cli core update-index
           arduino-cli core install m5stack:esp32
 
+      - name: List available boards (debug)
+        run: |
+          arduino-cli board listall | grep -i stamp || true
+          arduino-cli board listall | grep -i m5stack || true
+
       - name: Install M5Stamp_UWB library
         run: |
           arduino-cli lib install "M5Stamp_UWB"
